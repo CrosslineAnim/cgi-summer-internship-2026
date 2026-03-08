@@ -60,10 +60,19 @@ export default {
     }
   },
   methods: {
-    searchTables() {
-      // Later: send to backend or parent component
-      console.log('Otsing: ', this.filters);
-      this.$emit('search', this.filters);  // emit to parent (HomeView)
+    async searchTables() {
+      try {
+        const response = await fetch('http://localhost:8080/api/recommend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(this.filters)
+        });
+        const data = await response.json();
+        console.log('Recommended tables:', data);
+        // Later: emit to TableView to update highlights
+      } catch (error) {
+        console.error('Backend error:', error);
+      }
     }
   }
 }
