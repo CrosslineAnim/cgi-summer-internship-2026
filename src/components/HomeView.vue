@@ -1,23 +1,29 @@
 <template>
-  <div class="home-page">
-    <h1>Restorani laua broneerimine</h1>
-
-    <FiltersView />
-
-    <TableView />
-
+  <div class="home">
+    <FiltersView @search="handleSearch" />
+    <TableMapView ref="tableMapView" />
   </div>
 </template>
 
 <script>
-import FiltersView from '@/views/FiltersView.vue'
-import TableView from '@/views/TableView.vue'
+import FiltersView from './FiltersView.vue'
+import TableMapView from "./view/TableMapView.vue";
 
 export default {
-  name: 'HomeView',
-  components: {
-    FiltersView,
-    TableView
+  components: { FiltersView, TableMapView },
+  methods: {
+    handleSearch(filters) {
+      console.log('Filters saadud:', filters);
+      // Later: call backend, then update TableMapView
+      // For now just log
+      this.$refs.tableMapView.tables.forEach(t => {
+        t.status = Math.random() > 0.5 ? 'available' : 'occupied'; // fake update
+      });
+    }
   }
 }
 </script>
+
+<style>
+.home { display: flex; gap: 30px; padding: 20px; }
+</style>
